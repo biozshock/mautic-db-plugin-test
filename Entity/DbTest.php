@@ -13,12 +13,15 @@ class DbTest extends CommonEntity
 
     private ?\DateTimeImmutable $someDate;
 
+    private ?string $field;
+
     public static function loadMetadata(ORMClassMetadata $metadata): void
     {
         $builder = new ClassMetadataBuilder($metadata);
         $builder->setTable('db_test')->setCustomRepositoryClass(DbTestRepository::class);
         $builder->addId();
         $builder->addNullableField('someDate', Types::DATETIME_IMMUTABLE, 'some_date');
+        $builder->addNullableField('field', Types::STRING, 'field');
     }
 
     public function getId(): ?int
@@ -38,5 +41,15 @@ class DbTest extends CommonEntity
             null === $someDate ? null : \DateTime::createFromImmutable($someDate)
         );
         $this->someDate = $someDate;
+    }
+
+    public function getField(): ?string
+    {
+        return $this->field;
+    }
+
+    public function setField(?string $field): void
+    {
+        $this->field = $field;
     }
 }
